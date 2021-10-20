@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get('/', (req, res, next) => {
   console.log('admin', admin.products);
-  res.sendFile(path.join(pathHelper.getSrcDir, 'views', 'shop.html'))
+  res.render('shop')
 })
 
 export default router;

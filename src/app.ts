@@ -7,6 +7,9 @@ import path from 'path';
 
 const app = express();
 
+app.set('view engine', 'pug');
+app.set('views', path.join(pathHelper.getSrcDir, 'views'));
+
 app.use(express.json())
 app.use(express.urlencoded({
   extended: true
