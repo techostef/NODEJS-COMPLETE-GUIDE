@@ -8,7 +8,10 @@ import expressHbs from 'express-handlebars';
 
 const app = express();
 
-app.engine('hbs', expressHbs())
+app.engine('hbs', expressHbs({
+  layoutDir: 'views/layouts',
+  defaultLayout: 'mainLayout.hbs'
+}))
 
 app.set('view engine', 'hbs');
 app.set('views', path.join(pathHelper.getSrcDir, 'views'));
