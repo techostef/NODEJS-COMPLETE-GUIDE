@@ -4,6 +4,7 @@ import adminRoutes from './routes/admin';
 import shopRoutes from './routes/shop';
 import pathHelper from './helper/pathHelper';
 import path from 'path';
+import errorController from './controllers/errorController';
 
 const app = express();
 
@@ -21,10 +22,6 @@ app.use('/admin', adminRoutes);
 
 app.use(shopRoutes);
 
-app.use((req, res, next) => {
-  res.status(404).render('404', {
-    docTitle: 'Page Not Found'
-  })
-})
+app.use(errorController.getRoot)
 
 app.listen(config.port);

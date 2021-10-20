@@ -1,10 +1,6 @@
 import { RequestHandler } from "express";
+import ProductModel from "../models/productModel";
 
-interface IProduct {
-  title: string,
-}
-
-const products: IProduct[] = [];
 
 const getAddProduct: RequestHandler = (req, res, next) => {
   res.render('addProduct', {
@@ -14,16 +10,14 @@ const getAddProduct: RequestHandler = (req, res, next) => {
 }
 
 const postProduct: RequestHandler = (req, res, next) => {
-  products.push({
-    title: req.body?.title
-  })
+  const productModel = new ProductModel(req.body?.title);
+  productModel.save();
   res.redirect('/');
 }
  
 const adminController = {
   getAddProduct,
   postProduct,
-  products,
 }
 
 export default adminController;

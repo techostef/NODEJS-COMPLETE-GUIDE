@@ -1,8 +1,9 @@
-import adminController from "./adminController"
+import { RequestHandler } from "express";
+import ProductModel from "../models/productModel";
 
-const getRoot = (req, res, next) => {
+const getRoot: RequestHandler = (req, res, next) => {
   res.render('shop', {
-    products: adminController.products,
+    products: ProductModel.fetchAll(),
     docTitle: 'shop',
     path: '/'
   })
