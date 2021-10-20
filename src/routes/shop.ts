@@ -6,10 +6,10 @@ import admin from './admin';
 const router = express.Router();
 
 router.get('/', (req, res, next) => {
-  console.log('admin', admin.products);
   res.render('shop', {
     products: admin.products,
-    docTitle: 'shop'
+    docTitle: 'shop',
+    path: '/'
   })
 })
 

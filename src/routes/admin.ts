@@ -14,7 +14,8 @@ const products: IProduct[] = [];
 // /admin/add-product => GET
 router.get('/add-product', (req, res, next) => {
   res.render('addProduct', {
-    docTitle: 'Add Product'
+    docTitle: 'Add Product',
+    path: '/admin/add-product'
   })
 })
 
