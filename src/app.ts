@@ -13,12 +13,12 @@ app.use(express.urlencoded({
 }))
 app.use(express.static(path.join(pathHelper.getSrcDir, '../', 'public')))
 
-app.use('/admin', adminRoutes);
+app.use('/admin', adminRoutes.router);
 
 app.use(shopRoutes);
 
 app.use((req, res, next) => {
-  res.status(404).sendFile(path.join(pathHelper.getSrcDir, 'views', ''))
+  res.status(404).sendFile(path.join(pathHelper.getSrcDir, 'views', '404.html'))
 })
 
 app.listen(config.port);
