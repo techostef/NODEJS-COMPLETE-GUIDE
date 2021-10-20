@@ -13,8 +13,9 @@ const products: IProduct[] = [];
 
 // /admin/add-product => GET
 router.get('/add-product', (req, res, next) => {
-  console.log('In Another middleware');
-  res.sendFile(path.join(pathHelper.getSrcDir, 'views', 'addProduct.html'))
+  res.render('addProduct', {
+    docTitle: 'Add Product'
+  })
 })
 
 // /admin/add-product => POST
