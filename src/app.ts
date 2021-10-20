@@ -4,16 +4,20 @@ import adminRoutes from './routes/admin';
 import shopRoutes from './routes/shop';
 import pathHelper from './helper/pathHelper';
 import path from 'path';
+import expressHbs from 'express-handlebars';
 
 const app = express();
 
-app.set('view engine', 'pug');
+app.engine('hbs', expressHbs())
+
+app.set('view engine', 'hbs');
 app.set('views', path.join(pathHelper.getSrcDir, 'views'));
 
 app.use(express.json())
 app.use(express.urlencoded({
   extended: true
 }))
+
 app.use(express.static(path.join(pathHelper.getSrcDir, '../', 'public')))
 
 app.use('/admin', adminRoutes.router);
