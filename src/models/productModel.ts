@@ -9,9 +9,15 @@ const p = path.join(pathHelper.getSrcDir, 'data', 'productions.json');
 
 class ProductModel {
   private title;
+  private imageUrl;
+  private description;
+  private price;
 
-  constructor(title) {
+  constructor(title, imageUrl, description, price) {
     this.title = title;
+    this.imageUrl = imageUrl;
+    this.description = description;
+    this.price = price;
   }
 
   save() {
@@ -24,7 +30,10 @@ class ProductModel {
         console.log('err', err)
       }
       productsTemp.push({
-        title: this.title
+        title: this.title,
+        imageUrl: this.imageUrl,
+        description: this.description,
+        price: this.price,
       })
       fs.writeFile(p, JSON.stringify(productsTemp), (err) => {
         console.log('err', err)
