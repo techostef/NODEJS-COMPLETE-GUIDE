@@ -4,10 +4,23 @@ import ProductModel from "../models/productModel";
 
 
 const getAddProduct: RequestHandler = (req, res, next) => {
-  res.render('admin/addProduct', {
+  res.render('admin/editProduct', {
     docTitle: 'Add Product',
+    product: null,
     path: '/admin/add-product'
   })
+}
+
+const getEditProduct: RequestHandler = (req, res, next) => {
+  const product = ProductModel.fetchById(req.params?.productId);
+  if (!product) res.redirect('/')
+  else {
+    res.render('admin/editProduct', {
+      docTitle: 'Edit Product',
+      product: ProductModel.fetchById(req.params?.productId),
+      path: '/admin/add-product'
+    })
+  }
 }
 
 const getProducts: RequestHandler = (req, res, next) => {
@@ -18,7 +31,7 @@ const getProducts: RequestHandler = (req, res, next) => {
   })
 }
 
-const postProduct: RequestHandler = (req, res, next) => {
+const postAddProduct: RequestHandler = (req, res, next) => {
   const data: IProduct = req.body;
   const productModel = new ProductModel(
     data?.title,
@@ -29,11 +42,26 @@ const postProduct: RequestHandler = (req, res, next) => {
   productModel.save();
   res.redirect('/shop/products');
 }
+
+const postEditProduct: RequestHandler = (req, res, next) => {
+  const data: IProduct = req.body;
+  ProductModel.updateItem(data);
+  res.redirect('/shop/products');
+}
+
+const deleteProduct: RequestHandler = (req, res, next) => {
+  const productId = req.params.productId;
+  ProductModel.deleteItem(productId);
+  res.redirect('/shop/products');
+}
  
 const adminController = {
   getAddProduct,
+  getEditProduct,
   getProducts,
-  postProduct,
+  postAddProduct,
+  postEditProduct,
+  deleteProduct,
 }
 
 export default adminController;
