@@ -17,7 +17,7 @@ app.use(express.urlencoded({
 
 app.use(express.static(path.join(pathHelper.getSrcDir, '../', 'public')))
 
-app.use('/admin', adminRoutes.router);
+app.use('/admin', adminRoutes);
 
 app.use(shopRoutes);
 

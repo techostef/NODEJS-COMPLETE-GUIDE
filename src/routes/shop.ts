@@ -1,16 +1,8 @@
 import express from 'express';
-import path from 'path';
-import pathHelper from '../helper/pathHelper';
-import admin from './admin';
+import shopController from '../controllers/shopController';
 
 const router = express.Router();
 
-router.get('/', (req, res, next) => {
-  res.render('shop', {
-    products: admin.products,
-    docTitle: 'shop',
-    path: '/'
-  })
-})
+router.get('/', shopController.getRoot)
 
 export default router;

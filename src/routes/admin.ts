@@ -1,35 +1,14 @@
 import express from 'express';
 import path from 'path';
+import adminController from '../controllers/adminController';
 import pathHelper from '../helper/pathHelper';
 
 const router = express.Router();
 
-interface IProduct {
-  title: string,
-}
-
-const products: IProduct[] = [];
-
-
 // /admin/add-product => GET
-router.get('/add-product', (req, res, next) => {
-  res.render('addProduct', {
-    docTitle: 'Add Product',
-    path: '/admin/add-product'
-  })
-})
+router.get('/add-product', adminController.getAddProduct)
 
 // /admin/add-product => POST
-router.post('/product', (req, res, next) => {
-  products.push({
-    title: req.body?.title
-  })
-  res.redirect('/');
-}) 
+router.post('/product', adminController.postProduct) 
 
-const admin = {
-  router,
-  products,
-}
-
-export default admin;
+export default router;
