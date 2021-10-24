@@ -77,8 +77,8 @@ class CartModel {
     })
   }
 
-  static getProducts() {
-    const products = ProductModel.fetchAll();
+  static async getProducts() {
+    const products = await ProductModel.fetchAll();
     const cartProducts = this.fetchAll();
     const filterProducts: ICartProduct[] = [];
     products.forEach((item) => {

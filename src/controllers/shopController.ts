@@ -2,25 +2,29 @@ import { RequestHandler } from "express";
 import CartModel from "../models/cartModel";
 import ProductModel from "../models/productModel";
 
-const getRoot: RequestHandler = (req, res, next) => {
+const getRoot: RequestHandler = async (req, res, next) => {
+  const products = await ProductModel.fetchAll();
   res.render('shop/index', {
-    products: ProductModel.fetchAll(),
+    products,
     docTitle: 'Shop',
     path: '/shop'
   })
 }
 
-const getProductList: RequestHandler = (req, res, next) => {
+const getProductList: RequestHandler = async (req, res, next) => {
+  const products = await ProductModel.fetchAll();
   res.render('shop/productList', {
-    products: ProductModel.fetchAll(),
+    products,
     docTitle: 'Product List',
     path: '/shop/products'
   })
 }
 
-const getProductDetail: RequestHandler = (req, res, next) => {
+const getProductDetail: RequestHandler = async (req, res, next) => {
+  const product = await ProductModel.fetchById(req.params?.productId)
+
   res.render('shop/productDetail', {
-    product: ProductModel.fetchById(req.params?.productId),
+    product,
     docTitle: 'Product Detail',
     path: '/shop/products'
   })
@@ -34,34 +38,36 @@ const getCart: RequestHandler = (req, res, next) => {
   })
 }
 
-const postCart: RequestHandler = (req, res, next) => {
+const postCart: RequestHandler = async  (req, res, next) => {
   const productId = req.body?.productId;
-  const product = ProductModel.fetchById(productId);
+  const product = await ProductModel.fetchById(productId);
   if (product) {
-    CartModel.addProduct(product.id, product.price);
+    CartModel.addProduct(product?.id, product?.price);
   }
   res.redirect('/shop/cart');
 }
 
-const getOrders: RequestHandler = (req, res, next) => {
+const getOrders: RequestHandler = async (req, res, next) => {
+  const products = await ProductModel.fetchAll();
   res.render('shop/orders', {
-    products: ProductModel.fetchAll(),
+    products,
     docTitle: 'Orders',
     path: '/shop/orders'
   })
 }
 
-const getCheckout: RequestHandler = (req, res, next) => {
+const getCheckout: RequestHandler = async (req, res, next) => {
+  const products = await ProductModel.fetchAll();
   res.render('shop/checkout', {
-    products: ProductModel.fetchAll(),
+    products,
     docTitle: 'Checkout',
     path: '/shop/checkout'
   })
 }
 
-const deleteCart: RequestHandler = (req, res, next) => {
+const deleteCart: RequestHandler = async (req, res, next) => {
   const productId = req.body?.productId;
-  const product = ProductModel.fetchById(productId);
+  const product = await ProductModel.fetchById(productId);
   if (product) {
     CartModel.deleteProduct(product?.id, product?.price)
   }

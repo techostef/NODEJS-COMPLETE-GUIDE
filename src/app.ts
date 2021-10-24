@@ -24,4 +24,8 @@ app.use(shopRoutes);
 
 app.use(errorController.getRoot)
 
+// (async () => {
+//   await dbHelper.end()
+// });
+
 app.listen(config.port);
