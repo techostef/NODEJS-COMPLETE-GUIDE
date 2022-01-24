@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import IProduct from "../interfaces/IProduct";
 import ProductModel from "../models/productModel";
+import UserModel from "../models/userModel";
 
 
 const getAddProduct: RequestHandler = (req, res, next) => {
@@ -12,7 +13,18 @@ const getAddProduct: RequestHandler = (req, res, next) => {
 }
 
 const getEditProduct: RequestHandler = async (req, res, next) => {
-  const product = await ProductModel.fetchById(req.params?.productId);
+  const user: any = await UserModel.findByPk(1);
+  const products = await user.getProductModels({
+    where: {
+      id: req?.params?.productId
+    }
+  })
+  const [ product ] = products;
+  // const product = await ProductModel.findOne({
+  //   where: {
+  //     id: req.params?.productId,
+  //   }
+  // });
   if (!product) res.redirect('/')
   else {
     res.render('admin/editProduct', {
@@ -24,7 +36,12 @@ const getEditProduct: RequestHandler = async (req, res, next) => {
 }
 
 const getProducts: RequestHandler = async (req, res, next) => {
-  const products = await ProductModel.fetchAll();
+  const user: any = await UserModel.findByPk(1);
+  const products = await user.getProductModels({
+    where: {
+      id: req?.params?.productId
+    }
+  })
   res.render('admin/products', {
     docTitle: 'Products',
     products,
@@ -34,25 +51,28 @@ const getProducts: RequestHandler = async (req, res, next) => {
 
 const postAddProduct: RequestHandler = async (req, res, next) => {
   const data: IProduct = req.body;
-  const productModel = new ProductModel(
-    data?.title,
-    data?.imageUrl,
-    data?.description,
-    data?.price,
-  );
-  await productModel.save();
+  const user: any = await UserModel.findByPk(1);
+  user.createProductModel(data)
   res.redirect('/shop/products');
 }
 
 const postEditProduct: RequestHandler = async (req, res, next) => {
   const data: IProduct = req.body;
-  await ProductModel.updateItem(data);
+  await ProductModel.update(data, {
+    where: {
+      id: data?.id
+    }
+  });
   res.redirect('/shop/products');
 }
 
 const deleteProduct: RequestHandler = async (req, res, next) => {
   const productId = req.params.productId;
-  await ProductModel.deleteItem(productId);
+  await ProductModel.destroy({
+    where: {
+      id: productId
+    }
+  });
   res.redirect('/shop/products');
 }
  

@@ -4,6 +4,8 @@ interface IProduct {
   imageUrl: string,
   description: string,
   price: string,
+  createdAt: Date | string,
+  updatedAt: Date | string,
 }
 
 export default IProduct;
